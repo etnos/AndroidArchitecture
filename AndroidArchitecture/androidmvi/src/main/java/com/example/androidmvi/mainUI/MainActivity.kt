@@ -1,7 +1,8 @@
-package com.example.androidmvi
+package com.example.androidmvi.mainUI
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.androidmvi.R
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
