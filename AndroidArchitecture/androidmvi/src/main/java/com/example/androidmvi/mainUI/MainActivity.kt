@@ -5,6 +5,9 @@ import android.os.Bundle
 import com.example.androidmvi.R
 import timber.log.Timber
 
+/**
+ * Simple activity. Load Main Fragment and nothing more
+ */
 class MainActivity : AppCompatActivity() {
 
     // just to make it simpler
@@ -16,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         Timber.i("onCreate")
 
+        // load Main Fragment
         supportFragmentManager.beginTransaction()
             .replace(R.id.mainContainer, fragment)
             .commit()

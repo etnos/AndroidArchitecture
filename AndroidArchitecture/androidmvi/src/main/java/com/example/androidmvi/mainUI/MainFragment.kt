@@ -12,6 +12,9 @@ import com.example.androidmvi.R
 import kotlinx.android.synthetic.main.fragment_main.*
 import timber.log.Timber
 
+/**
+ * Keeps main UI. connects UI with ViewModel
+ */
 class MainFragment : Fragment() {
 
 
@@ -39,15 +42,13 @@ class MainFragment : Fragment() {
         textView.text = "Some title form code"
         button.setOnClickListener {
             Timber.i("Button click")
-            viewModel.mainData.value = viewModel.mainData.value + " " + 0
+            viewModel.refreshUsers()
         }
 
         viewModel.mainData.observe(this, Observer {
             it?.let {
-                editText.setText(it, TextView.BufferType.EDITABLE)
+                editText.setText("Users amount = ${it.size}\n$it", TextView.BufferType.EDITABLE)
             }
         })
-
-        viewModel.mainData.value = "Some long text"
     }
 }
