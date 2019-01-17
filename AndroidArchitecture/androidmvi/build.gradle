@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
 
@@ -43,9 +45,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-
     // RxJava RxAndroid
     implementation "io.reactivex.rxjava2:rxjava:2.2.5"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
 //    implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha1'
+    // Room
+    implementation "androidx.room:room-runtime:2.1.0-alpha03"
+    implementation "androidx.room:room-rxjava2:2.1.0-alpha03"
+    kapt "androidx.room:room-compiler:2.1.0-alpha03"
 }
