@@ -1,4 +1,4 @@
-package com.example.androidmvi.repository
+package com.example.androidmvi.repository.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

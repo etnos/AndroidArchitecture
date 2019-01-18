@@ -2,6 +2,7 @@ package com.example.androidmvi.repository
 
 import com.example.androidmvi.dependency_injection.DI
 import com.example.androidmvi.repository.local.UserDao
+import com.example.androidmvi.repository.model.UserModel
 import com.example.androidmvi.repository.remote.InternetService
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit

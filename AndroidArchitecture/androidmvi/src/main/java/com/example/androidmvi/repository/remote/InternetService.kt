@@ -1,6 +1,6 @@
 package com.example.androidmvi.repository.remote
 
-import com.example.androidmvi.repository.UserModel
+import com.example.androidmvi.repository.model.UserModel
 import io.reactivex.Observable
 import retrofit2.http.GET
 

@@ -52,5 +52,6 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:2.1.0-alpha03"
     implementation "androidx.room:room-rxjava2:2.1.0-alpha03"
+    // do not forget -> apply plugin: 'kotlin-kapt'
     kapt "androidx.room:room-compiler:2.1.0-alpha03"
 }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Room
 import com.example.androidmvi.MyApplication
+import com.example.androidmvi.mainUI.mvi.ActionProcessorHolder
+import com.example.androidmvi.mainUI.mvi.ProcessFetchUsers
 import com.example.androidmvi.repository.MyRepository
 import com.example.androidmvi.repository.local.MyDB
 import com.example.androidmvi.repository.local.UserDao
@@ -25,18 +27,24 @@ class DI private constructor(private val context: Context = MyApplication.global
         fun getInternetService() = instance.internetService
         fun getRepository() = instance.repository
         fun getUserDao() = instance.userDao
+        fun getProcessFetchUsers() = instance.processFetchUsers
+        fun getActionProcessorHolder() = instance.actionProcessorHolder
     }
 
     private val internetService: InternetService
     private val repository: MyRepository
     private val db: MyDB
     private val userDao: UserDao
+    private val processFetchUsers: ProcessFetchUsers
+    private val actionProcessorHolder: ActionProcessorHolder
 
     init {
         internetService = initInternetService()
         db = provideDb(context)
         userDao = provideUserDao(db)
         repository = MyRepository(internetService, userDao)
+        processFetchUsers = initProcessFetchUsers(repository)
+        actionProcessorHolder = ActionProcessorHolder(processFetchUsers)
     }
 
     private fun initInternetService(): InternetService {
@@ -65,4 +73,7 @@ class DI private constructor(private val context: Context = MyApplication.global
     private fun provideUserDao(db: MyDB): UserDao {
         return db.userDao()
     }
+
+    private fun initProcessFetchUsers(repository: MyRepository) = ProcessFetchUsers(repository)
+
 }
