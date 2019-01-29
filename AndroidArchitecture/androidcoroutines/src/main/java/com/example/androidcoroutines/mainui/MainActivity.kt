@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity() {
                 is UIData.Error -> {
                     // todo handle errors here
                 }
+                is UIData.ErrorCustom -> {
+                    // todo handle custom errors here
+                }
             }
         })
     }
