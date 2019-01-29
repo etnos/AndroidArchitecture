@@ -1,1 +1,1 @@
-include ':app', ':androidmvi'
+include ':app', ':androidmvi', ':androidcoroutines'

@@ -8,6 +8,7 @@ import timber.log.Timber
 
 class ActionProcessorHolder(private val processFetchUsers: ProcessFetchUsers) {
 
+    private val retryCount = 2L
 
     // An observable for fetch License
     // it uses a singleton instance of ProcessSyncLicense and parse response base on result
@@ -16,6 +17,8 @@ class ActionProcessorHolder(private val processFetchUsers: ProcessFetchUsers) {
         ObservableTransformer<MyAction.SyncBackendAction, MyResult.SyncBackendResult> { actions ->
             actions.flatMap { action ->
                 processFetchUsers.fetchUsers()
+                    // retry 2 times if process failed
+                    .retry(retryCount)
                     // Wrap returned data into an immutable object
                     .map { users -> MyResult.SyncBackendResult.Success(users) }
                     .cast(MyResult.SyncBackendResult::class.java)
@@ -32,13 +35,16 @@ class ActionProcessorHolder(private val processFetchUsers: ProcessFetchUsers) {
         ObservableTransformer<MyAction.SyncBackendAction2, MyResult.SyncBackendResult2> { actions ->
             actions.flatMap { action ->
                 processFetchUsers.fetchUsers()
+                    // retry 2 times if process failed
+                    .retry(retryCount)
                     // Wrap returned data into an immutable object
                     .map { users -> MyResult.SyncBackendResult2.Success(users) }
                     .cast(MyResult.SyncBackendResult2::class.java)
                     // Wrap any error into an immutable object and pass it down the stream
                     // without crashing.
                     // Because errors are data and hence, should just be part of the stream.
-                    .onErrorReturn(MyResult.SyncBackendResult2::Failure)
+//                    .onErrorReturn(MyResult.SyncBackendResult2::Failure)
+                    .onErrorReturn { error -> MyResult.SyncBackendResult2.Failure(error) }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
             }
