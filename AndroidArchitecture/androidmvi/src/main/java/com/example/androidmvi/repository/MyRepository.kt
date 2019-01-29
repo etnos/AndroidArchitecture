@@ -12,11 +12,13 @@ class MyRepository(
     private val userDao: UserDao = DI.getUserDao()
 ) {
 
+    private val debounceTime = 250L
+
     fun getUsers(): Observable<List<UserModel>> {
         val remote = getUsersRemote()
         val local = getUsersFromDb()
         return Observable.concatArrayEager(remote, local)
-            .debounce(250, TimeUnit.MILLISECONDS)
+            .debounce(debounceTime, TimeUnit.MILLISECONDS)
     }
 
     private fun getUsersRemote() = internetService.getUsers()

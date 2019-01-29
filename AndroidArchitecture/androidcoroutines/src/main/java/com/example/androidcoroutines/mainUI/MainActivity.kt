@@ -1,13 +1,37 @@
-package com.example.androidcoroutines.mainUI
+package com.example.androidcoroutines.mainui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.androidcoroutines.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        initUI()
+    }
+
+
+    private fun initUI() {
+        button.setOnClickListener {
+            viewModel.test()
+        }
+
+        viewModel.data.observe(this, Observer {
+            it?.let { user ->
+                textViewUserId.text = "UserId: ${user.userId}"
+                textViewId.text = "ID:  ${user.id}"
+                textViewTitle.text = "Title: ${user.title}"
+                textViewCompleted.text = "Completed: ${user.completed}"
+            }
+        })
     }
 }
