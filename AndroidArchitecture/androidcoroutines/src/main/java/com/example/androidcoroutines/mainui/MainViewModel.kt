@@ -29,6 +29,13 @@ class MainViewModel : ViewModel() {
         refreshUser(repository)
     }
 
+    fun testButtonClick2() {
+        Timber.i("testButtonClick2")
+
+        refreshUserWithError(repository)
+    }
+
+
     fun refreshUser(repository: MyRepository) {
         Timber.i("refreshUser start")
         fetchUserJob = CoroutineScope(Dispatchers.IO).launch {
@@ -37,6 +44,18 @@ class MainViewModel : ViewModel() {
                 //do something with result
                 Timber.i("refreshUser result $result")
                 setValue(UIData.Success(result))
+            }
+        }
+    }
+
+    fun refreshUserWithError(repository: MyRepository) {
+        Timber.i("refreshUser start")
+        fetchUserJob = CoroutineScope(Dispatchers.IO).launch {
+            val result = repository.getUser2()
+            withContext(Dispatchers.Main) {
+                //do something with result
+                Timber.i("refreshUser result $result")
+                setValue(result)
             }
         }
     }

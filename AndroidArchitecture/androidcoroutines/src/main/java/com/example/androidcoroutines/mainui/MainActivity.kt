@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
             viewModel.testButtonClick()
         }
 
+        button2.setOnClickListener {
+            viewModel.testButtonClick2()
+        }
+
         viewModel.data.observe(this, Observer {
             if (it == null) return@Observer
             when (it) {
