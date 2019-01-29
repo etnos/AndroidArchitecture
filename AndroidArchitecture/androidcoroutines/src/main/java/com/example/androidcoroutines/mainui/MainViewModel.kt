@@ -10,7 +10,7 @@ import timber.log.Timber
 class MainViewModel : ViewModel() {
 
     val data = MutableLiveData<UIData>()
-    private val repository = DiUtil.repository
+    var repository = DiUtil.repository
 
     private var fetchUserJob: Job? = null
 
@@ -31,7 +31,6 @@ class MainViewModel : ViewModel() {
 
     fun refreshUser(repository: MyRepository) {
         Timber.i("refreshUser start")
-
         fetchUserJob = CoroutineScope(Dispatchers.IO).launch {
             val result = repository.getUser()
             withContext(Dispatchers.Main) {
