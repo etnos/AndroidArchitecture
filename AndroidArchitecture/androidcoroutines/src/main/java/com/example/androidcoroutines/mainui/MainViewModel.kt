@@ -6,7 +6,7 @@ import timber.log.Timber
 
 class MainViewModel : ViewModel() {
 
-    val data = MutableLiveData<UserModel>()
+    val data = MutableLiveData<UIData>()
     private var userId = 0
     private var id = 2
         get() {
@@ -17,7 +17,13 @@ class MainViewModel : ViewModel() {
     fun test() {
         Timber.i("Test")
 
-        val user = UserModel(userId++, id, "my custom title", true)
+        val user = refreshUser()
         data.value = user
+    }
+
+    fun refreshUser(): UIData {
+        val user = UserModel(userId++, id, "my custom title", true)
+
+        return UIData.Success(user)
     }
 }

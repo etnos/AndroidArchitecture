@@ -26,12 +26,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.data.observe(this, Observer {
-            it?.let { user ->
-                textViewUserId.text = "UserId: ${user.userId}"
-                textViewId.text = "ID:  ${user.id}"
-                textViewTitle.text = "Title: ${user.title}"
-                textViewCompleted.text = "Completed: ${user.completed}"
+            if (it == null) return@Observer
+            when (it) {
+                is UIData.Success -> {
+                    initUserUI(it.user)
+                }
+                is UIData.Error -> {
+                    // todo handle errors here
+                }
             }
         })
+    }
+
+    private fun initUserUI(user: UserModel) {
+        textViewUserId.text = "UserId: ${user.userId}"
+        textViewId.text = "ID:  ${user.id}"
+        textViewTitle.text = "Title: ${user.title}"
+        textViewCompleted.text = "Completed: ${user.completed}"
     }
 }
