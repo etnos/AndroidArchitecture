@@ -2,11 +2,20 @@ package com.example.androidcoroutines.mainui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.androidcoroutines.mainui.di.DiUtil
+import com.example.androidcoroutines.mainui.repository.MyRepository
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 class MainViewModel : ViewModel() {
 
     val data = MutableLiveData<UIData>()
+    private val repository = DiUtil.repository
+
+    private var fetchUserJob: Job? = null
+
+
+    // test variables
     private var userId = 0
     private var id = 2
         get() {
@@ -14,16 +23,34 @@ class MainViewModel : ViewModel() {
             return field
         }
 
-    fun test() {
-        Timber.i("Test")
+    fun testButtonClick() {
+        Timber.i("testButtonClick")
 
-        val user = refreshUser()
-        data.value = user
+        refreshUser(repository)
     }
 
-    fun refreshUser(): UIData {
-        val user = UserModel(userId++, id, "my custom title", true)
+    fun refreshUser(repository: MyRepository) {
+        Timber.i("refreshUser start")
 
-        return UIData.Success(user)
+        fetchUserJob = CoroutineScope(Dispatchers.IO).launch {
+            val result = repository.getUser()
+            withContext(Dispatchers.Main) {
+                //do something with result
+                Timber.i("refreshUser result $result")
+                setValue(UIData.Success(result))
+            }
+        }
+    }
+
+    fun setValue(uiData: UIData) {
+        Timber.i("setValue $uiData")
+        data.value = uiData
+    }
+
+
+    override fun onCleared() {
+        super.onCleared()
+
+        fetchUserJob?.cancel()
     }
 }

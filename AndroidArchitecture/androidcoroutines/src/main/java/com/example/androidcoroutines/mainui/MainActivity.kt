@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUI() {
         button.setOnClickListener {
-            viewModel.test()
+            viewModel.testButtonClick()
         }
 
         viewModel.data.observe(this, Observer {

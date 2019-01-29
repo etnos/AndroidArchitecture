@@ -9,6 +9,7 @@ import org.junit.Test
 class MainViewModelTest {
 
     lateinit var mainViewModel: MainViewModel
+
     @Before
     fun setUp() {
         mainViewModel = MainViewModel()
